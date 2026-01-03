@@ -127,4 +127,57 @@
 
     <div style="font-size: 30px; cursor: pointer; margin-bottom: 10px;" onclick="startSurprise()">❤️</div>
     
-    <button class
+    <button class="btn-surprise" id="playBtn" onclick="startSurprise()">Click for a surprise ✨</button>
+
+    <div style="margin-top: 15px; font-size: 0.8rem; opacity: 0.8;">
+        With all my love, <strong>Amine</strong>
+    </div>
+</div>
+
+<script>
+    const song = document.getElementById("mySong");
+    const notes = ["I miss you", "Dyalii", "Habiba", "Beautiful", "❤️", "Thinking of you"];
+
+    function spawnNote(e) {
+        const note = document.createElement('div');
+        note.classList.add('floating-note');
+        note.innerText = notes[Math.floor(Math.random() * notes.length)];
+        note.style.left = e.clientX + 'px';
+        note.style.top = e.clientY + 'px';
+        document.body.appendChild(note);
+        setTimeout(() => note.remove(), 2000);
+    }
+
+    function createPetal() {
+        const petal = document.createElement('div');
+        petal.classList.add('petal');
+        petal.innerText = ['🌸', '❤️', '🌹', '✨'][Math.floor(Math.random() * 4)];
+        petal.style.left = Math.random() * 100 + 'vw';
+        petal.style.animationDuration = Math.random() * 2 + 3 + 's';
+        petal.style.fontSize = Math.random() * 20 + 10 + 'px';
+        document.body.appendChild(petal);
+        setTimeout(() => petal.remove(), 5000);
+    }
+
+    function startSurprise() {
+        // Force the music to play
+        song.play().catch(e => {
+            // Second attempt if first fails
+            song.load();
+            song.play();
+        });
+
+        // Start the petal rain
+        let count = 0;
+        const interval = setInterval(() => {
+            createPetal();
+            count++;
+            if (count > 50) clearInterval(interval);
+        }, 100);
+
+        document.getElementById('playBtn').innerText = "I love you! ❤️";
+    }
+</script>
+
+</body>
+</html>
