@@ -14,7 +14,6 @@
     <style>
         :root {
             --bg-gradient: linear-gradient(45deg, #ff9a9e, #fad0c4, #ffecd2);
-            --card-bg: rgba(255, 255, 255, 0.2);
         }
 
         body {
@@ -41,15 +40,15 @@
         }
 
         .card {
-            background: var(--card-bg);
+            background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            padding: 20px;
+            padding: 25px;
             border-radius: 25px;
             width: 100%;
-            max-width: 400px;
+            max-width: 380px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(255, 154, 158, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             border: 1px solid rgba(255, 255, 255, 0.3);
             position: relative;
             z-index: 10;
@@ -59,26 +58,24 @@
             width: 100%;
             height: 220px;
             object-fit: cover;
-            object-position: center;
-            border-radius: 18px;
+            border-radius: 15px;
             margin-bottom: 15px;
-            border: 2px solid rgba(255, 255, 255, 0.5);
+            border: 2px solid white;
         }
 
-        h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 5px 0; }
-        h2 { font-weight: 300; font-size: 0.9rem; margin: 0; opacity: 0.9; }
-        p { font-size: 0.85rem; line-height: 1.5; margin: 15px 0; font-weight: 300; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 10px 0; }
+        p { font-size: 0.85rem; line-height: 1.6; margin-bottom: 20px; font-weight: 300; }
 
         .btn-surprise {
             background: white;
             color: #ff4d6d;
             border: none;
-            padding: 12px 24px;
+            padding: 12px 30px;
             border-radius: 50px;
             font-weight: 600;
-            margin-top: 10px;
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            font-size: 0.9rem;
         }
 
         .floating-note {
@@ -87,20 +84,18 @@
             font-size: 0.8rem;
             pointer-events: none;
             animation: flyUp 2s ease-out forwards;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
             font-style: italic;
-            z-index: 1000;
         }
 
         @keyframes flyUp {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100px); opacity: 0; }
         }
 
         .petal {
             position: fixed;
             top: -10%;
-            z-index: 9999;
+            z-index: 999;
             animation: fall linear forwards;
         }
 
@@ -109,75 +104,63 @@
 </head>
 <body onclick="spawnNote(event)">
 
-<audio id="mySong" preload="auto">
+<audio id="mySong">
     <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <div class="card">
-    <img src="us.jpeg" alt="Our Memory" class="us-photo">
+    <img src="us.jpeg" alt="Us" class="us-photo">
     <h1>Twhchhhtk</h1>
-    <h2>my little babyyyy</h2>
-
     <p>
         I know we’re far from each other, but rak fbali every single day. 
         I miss your laugh and the comfort only you give me. 
-        Distance is just a test to see how far love can travel. 
-        uhibok salmaa dyaliii
+        uhibok salmaa dyaliii ❤️
     </p>
 
-    <div style="font-size: 30px; cursor: pointer; margin-bottom: 10px;" onclick="startSurprise()">❤️</div>
-    
-    <button class="btn-surprise" id="playBtn" onclick="startSurprise()">Click for a surprise ✨</button>
+    <button class="btn-surprise" id="mainBtn" onclick="startSurprise()">Click for a surprise ✨</button>
 
-    <div style="margin-top: 15px; font-size: 0.8rem; opacity: 0.8;">
-        With all my love, <strong>Amine</strong>
+    <div style="margin-top: 20px; font-size: 0.75rem; opacity: 0.8;">
+        With love, <strong>Amine</strong>
     </div>
 </div>
 
 <script>
     const song = document.getElementById("mySong");
-    const notes = ["I miss you", "Dyalii", "Habiba", "Beautiful", "❤️", "Thinking of you"];
+    const phrases = ["I miss you", "Dyalii", "Habiba", "❤️", "My baby"];
 
     function spawnNote(e) {
         const note = document.createElement('div');
         note.classList.add('floating-note');
-        note.innerText = notes[Math.floor(Math.random() * notes.length)];
+        note.innerText = phrases[Math.floor(Math.random() * phrases.length)];
         note.style.left = e.clientX + 'px';
         note.style.top = e.clientY + 'px';
         document.body.appendChild(note);
         setTimeout(() => note.remove(), 2000);
     }
 
-    function createPetal() {
-        const petal = document.createElement('div');
-        petal.classList.add('petal');
-        petal.innerText = ['🌸', '❤️', '🌹', '✨'][Math.floor(Math.random() * 4)];
-        petal.style.left = Math.random() * 100 + 'vw';
-        petal.style.animationDuration = Math.random() * 2 + 3 + 's';
-        petal.style.fontSize = Math.random() * 20 + 10 + 'px';
-        document.body.appendChild(petal);
-        setTimeout(() => petal.remove(), 5000);
-    }
-
     function startSurprise() {
-        // Force the music to play
-        song.play().catch(e => {
-            // Second attempt if first fails
-            song.load();
-            song.play();
+        // Play the song (The file MUST be on GitHub named music.mp3)
+        song.play().catch(error => {
+            console.log("Playback blocked or file not found.");
         });
 
-        // Start the petal rain
-        let count = 0;
-        const interval = setInterval(() => {
-            createPetal();
-            count++;
-            if (count > 50) clearInterval(interval);
-        }, 100);
+        // Change button text
+        document.getElementById('mainBtn').innerText = "I Love You! ❤️";
 
-        document.getElementById('playBtn').innerText = "I love you! ❤️";
+        // Petal shower
+        for(let i=0; i<50; i++) {
+            setTimeout(() => {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                petal.innerText = ['🌸','❤️','🌹'][Math.floor(Math.random()*3)];
+                petal.style.left = Math.random() * 100 + 'vw';
+                petal.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                petal.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                document.body.appendChild(petal);
+                setTimeout(() => petal.remove(), 5000);
+            }, i * 100);
+        }
     }
 </script>
-
 </body>
 </html>
