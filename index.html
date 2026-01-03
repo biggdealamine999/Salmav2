@@ -13,43 +13,31 @@
 
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #ff9a9e, #fad0c4);
-            --card-bg: rgba(255, 255, 255, 0.25);
-            --text-color: #ffffff;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-gradient: linear-gradient(135deg, #a71d31, #3f0d12);
-                --card-bg: rgba(0, 0, 0, 0.3);
-            }
+            --bg-gradient: linear-gradient(45deg, #ff9a9e, #fad0c4, #ffecd2);
+            --card-bg: rgba(255, 255, 255, 0.2);
         }
 
         body {
             margin: 0;
             min-height: 100vh; 
             background: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: 'Poppins', sans-serif;
-            color: var(--text-color);
-            overflow-x: hidden; 
+            color: white;
+            overflow: hidden; 
             padding: 15px;
             box-sizing: border-box;
+            touch-action: manipulation;
         }
 
-        .petal {
-            position: fixed;
-            top: -10%;
-            z-index: 9999;
-            user-select: none;
-            pointer-events: none;
-            animation: fall linear forwards;
-        }
-
-        @keyframes fall {
-            to { transform: translateY(110vh) rotate(360deg); }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .card {
@@ -61,10 +49,8 @@
             width: 100%;
             max-width: 400px;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            animation: fadeIn 1.5s ease;
-            box-sizing: border-box;
-            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 10px 30px rgba(255, 154, 158, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             position: relative;
             z-index: 10;
         }
@@ -72,42 +58,16 @@
         .us-photo {
             width: 100%;
             height: 220px;
-            object-fit: cover; 
+            object-fit: cover;
             object-position: center;
             border-radius: 18px;
             margin-bottom: 15px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-            border: 2px solid rgba(255,255,255,0.4);
+            border: 2px solid rgba(255, 255, 255, 0.5);
         }
 
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            margin: 5px 0;
-            line-height: 1.2;
-        }
-
-        h2 {
-            font-weight: 300;
-            font-size: 0.9rem;
-            margin-top: 0;
-            opacity: 0.9;
-        }
-
-        p {
-            font-size: 0.85rem;
-            line-height: 1.5;
-            margin: 15px 0;
-            font-weight: 300;
-        }
-
-        .heart {
-            font-size: 35px;
-            margin: 5px 0;
-            display: inline-block;
-            animation: pulse 1.5s infinite;
-            cursor: pointer;
-        }
+        h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 5px 0; }
+        h2 { font-weight: 300; font-size: 0.9rem; margin: 0; opacity: 0.9; }
+        p { font-size: 0.85rem; line-height: 1.5; margin: 15px 0; font-weight: 300; }
 
         .btn-surprise {
             background: white;
@@ -115,33 +75,39 @@
             border: none;
             padding: 12px 24px;
             border-radius: 50px;
-            font-family: 'Poppins', sans-serif;
             font-weight: 600;
-            font-size: 0.9rem;
             margin-top: 10px;
             cursor: pointer;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .signature {
-            margin-top: 15px;
-            font-style: italic;
+        .floating-note {
+            position: absolute;
+            color: white;
             font-size: 0.8rem;
-            opacity: 0.9;
+            pointer-events: none;
+            animation: flyUp 2s ease-out forwards;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-style: italic;
+            z-index: 1000;
         }
+
+        @keyframes flyUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+        }
+
+        .petal {
+            position: fixed;
+            top: -10%;
+            z-index: 9999;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
     </style>
 </head>
-<body>
+<body onclick="spawnNote(event)">
 
 <audio id="mySong" preload="auto">
     <source src="music.mp3" type="audio/mpeg">
@@ -149,58 +115,16 @@
 
 <div class="card">
     <img src="us.jpeg" alt="Our Memory" class="us-photo">
-
     <h1>Twhchhhtk</h1>
-    <h2>can't wait to see u again, my little babyyyy</h2>
+    <h2>my little babyyyy</h2>
 
     <p>
-        I know we’re far from each other right now, but I want you to know rak fbali w on my mind every single day. 
-        It’s been a whilee matlaqinaa, and I miss you soo so sooo much a hayati. 
-        Loving you makes every mile worth it. I just can’t wait for the moment I get to hold you again. 
+        I know we’re far from each other, but rak fbali every single day. 
+        I miss your laugh and the comfort only you give me. 
+        Distance is just a test to see how far love can travel. 
         uhibok salmaa dyaliii
     </p>
 
-    <div class="heart" onclick="createSinglePetal()">❤️</div>
+    <div style="font-size: 30px; cursor: pointer; margin-bottom: 10px;" onclick="startSurprise()">❤️</div>
     
-    <br>
-    <button class="btn-surprise" onclick="startSurprise()">Click for a surprise ✨</button>
-
-    <div class="signature">
-        With all my love,<br>
-        <strong>Amine</strong>
-    </div>
-</div>
-
-<script>
-    const song = document.getElementById("mySong");
-
-    function createSinglePetal() {
-        const petal = document.createElement('div');
-        petal.classList.add('petal');
-        const items = ['🌸', '❤️', '🌹', '✨'];
-        petal.innerText = items[Math.floor(Math.random() * items.length)];
-        petal.style.left = Math.random() * 100 + 'vw';
-        petal.style.animationDuration = Math.random() * 2 + 3 + 's';
-        petal.style.fontSize = Math.random() * 20 + 10 + 'px';
-        document.body.appendChild(petal);
-        setTimeout(() => petal.remove(), 5000);
-    }
-
-    function startSurprise() {
-        song.load();
-        song.volume = 1.0;
-        setTimeout(() => {
-            song.play().catch(e => console.log("Audio play error:", e));
-        }, 150);
-
-        let count = 0;
-        const interval = setInterval(() => {
-            createSinglePetal();
-            count++;
-            if (count > 50) clearInterval(interval);
-        }, 100);
-    }
-</script>
-
-</body>
-</html>
+    <button class
